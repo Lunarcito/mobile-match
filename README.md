@@ -12,6 +12,7 @@ Mini aplicación desarrollada como parte de una prueba técnica. Permite al usua
 - [ESLint](https://eslint.org/) - Linter para mantener el código limpio
 - [PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html)
 - [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) - Testing
+- [Chakra UI](https://chakra-ui.com/) - Componentes estilizados y sistema de diseño accesible
 
 ---
 
