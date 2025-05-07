@@ -1,3 +1,4 @@
+// Home.jsx después del segundo commit
 import React, { useState, useEffect } from "react";
 import { Box, Input, Heading, Center, Spinner, Text } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
@@ -19,8 +20,10 @@ function Home() {
       });
   }, []);
 
-  const filteredProducts = products.filter((product) =>
-    product.brand.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter(
+    (product) =>
+      product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.model.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -41,7 +44,13 @@ function Home() {
       ) : filteredProducts.length === 0 ? (
         <Text>No products found</Text>
       ) : (
-        filteredProducts.map((product) => <Box key={product.id}></Box>)
+        filteredProducts.map((product) => (
+          <Box key={product.id}>
+            <p>
+              {product.brand} - {product.model}
+            </p>
+          </Box>
+        ))
       )}
     </Box>
   );
