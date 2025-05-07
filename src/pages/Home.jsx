@@ -12,6 +12,10 @@ function Home() {
       .catch((error) => console.error("Error fetching products", error));
   }, []);
 
+  const filteredProducts = products.filter(
+    (product) => product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <Box p={3}>
       <Heading mb={3}>Product List</Heading>
@@ -22,6 +26,11 @@ function Home() {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
+      {filteredProducts.map((product) => (
+        <Box key={product.id}>
+          <p>{product.name}</p>
+        </Box>
+      ))}
     </Box>
   );
 }
