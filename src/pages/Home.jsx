@@ -1,12 +1,14 @@
-// Home.jsx después del segundo commit
 import React, { useState, useEffect } from "react";
 import { Box, Input, Heading, Center, Spinner, Text } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts()
@@ -19,6 +21,10 @@ function Home() {
         setLoading(false);
       });
   }, []);
+
+  const handleProductClick = (id) => {
+    navigate(`/product/${id}`);
+  };
 
   const filteredProducts = products.filter(
     (product) =>
@@ -45,7 +51,7 @@ function Home() {
         <Text>No products found</Text>
       ) : (
         filteredProducts.map((product) => (
-          <Box key={product.id}>
+          <Box key={product.id} onClick={() => handleProductClick(product.id)} cursor="pointer">
             <p>
               {product.brand} - {product.model}
             </p>
