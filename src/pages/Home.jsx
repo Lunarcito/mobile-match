@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Box, Input, Heading } from "@chakra-ui/react";
+import { Box, Input, Heading, Center, Spinner, Text } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProducts()
-      .then((data) => setProducts(data))
-      .catch((error) => console.error("Error fetching products", error));
+      .then((data) => {
+        setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching products", error);
+        setLoading(false);
+      });
   }, []);
 
-  const filteredProducts = products.filter(
-    (product) => product.name && product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProducts = products.filter((product) =>
+    product.brand.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -26,11 +33,16 @@ function Home() {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-      {filteredProducts.map((product) => (
-        <Box key={product.id}>
-          <p>{product.name}</p>
-        </Box>
-      ))}
+
+      {loading ? (
+        <Center>
+          <Spinner />
+        </Center>
+      ) : filteredProducts.length === 0 ? (
+        <Text>No products found</Text>
+      ) : (
+        filteredProducts.map((product) => <Box key={product.id}></Box>)
+      )}
     </Box>
   );
 }
