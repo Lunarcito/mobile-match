@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Box, Input, Heading, Center, Spinner, Text } from "@chakra-ui/react";
+import { Box, Input, Heading, Center, Spinner, Text, SimpleGrid } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -50,13 +51,15 @@ function Home() {
       ) : filteredProducts.length === 0 ? (
         <Text>No products found</Text>
       ) : (
-        filteredProducts.map((product) => (
-          <Box key={product.id} onClick={() => handleProductClick(product.id)} cursor="pointer">
-            <p>
-              {product.brand} - {product.model}
-            </p>
-          </Box>
-        ))
+        <SimpleGrid minChildWidth="250px" spacing={5}>
+          {filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onClick={() => handleProductClick(product.id)}
+            />
+          ))}
+        </SimpleGrid>
       )}
     </Box>
   );
