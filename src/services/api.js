@@ -10,3 +10,12 @@ export const fetchProductById = async (id) => {
   const res = await fetch(`/api/product/${id}`);
   return res.json();
 };
+
+export const addToCart = async ({ id, colorCode, storageCode }) => {
+  const res = await fetch("/api/cart", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id, colorCode, storageCode })
+  });
+  return res.json();
+};
