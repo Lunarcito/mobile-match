@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Input, Heading, Center, Spinner, Text, SimpleGrid } from "@chakra-ui/react";
+import { Box, Input, Heading, Center, Spinner, Text, Grid, Flex } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
@@ -8,7 +8,6 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,24 +33,36 @@ function Home() {
   );
 
   return (
-    <Box p={3}>
-      <Heading mb={3}>Product List</Heading>
-      <Input
-        placeholder="Search products"
-        mb={3}
-        maxW="300px"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
+    <Box p={6}>
+      <Box as="header" mb={6}>
+        <Heading size="xl">Product List</Heading>
+      </Box>
+      <Flex justify="flex-end" mb={6}>
+        <Box w={{ base: "100%", md: "25%" }}>
+          <Input
+            placeholder="Search products"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </Box>
+      </Flex>
 
       {loading ? (
-        <Center>
-          <Spinner />
+        <Center minH="200px">
+          <Spinner size="lg" color="teal.500" />
         </Center>
       ) : filteredProducts.length === 0 ? (
         <Text>No products found</Text>
       ) : (
-        <SimpleGrid minChildWidth="250px" spacing={5}>
+        <Grid
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)",
+            lg: "repeat(4, 1fr)"
+          }}
+          gap={6}
+        >
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
@@ -59,7 +70,7 @@ function Home() {
               onClick={() => handleProductClick(product.id)}
             />
           ))}
-        </SimpleGrid>
+        </Grid>
       )}
     </Box>
   );
