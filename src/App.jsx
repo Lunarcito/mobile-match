@@ -1,17 +1,17 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import ProductDetail from "./pages/ProductDetail";
+import ProductDetails from "./pages/ProductDetails.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 import { system } from "./theme/theme.js";
 
 function App() {
   return (
-    <ChakraProvider value={system}>
+    <ChakraProvider theme={system}>
       <h1>Mobile Tech</h1>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
       </Routes>
     </ChakraProvider>
   );
