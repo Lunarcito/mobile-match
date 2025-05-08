@@ -12,7 +12,7 @@ export const fetchProductById = async (id) => {
 };
 
 export const addToCart = async ({ id, colorCode, storageCode }) => {
-  const res = await fetch("https://itx-frontend-test.onrender.com/api/product/api/cart", {
+  const res = await fetch("https://itx-frontend-test.onrender.com/api/cart", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ id, colorCode, storageCode })
