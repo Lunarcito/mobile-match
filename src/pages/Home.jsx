@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Box, Input, Heading, Center, Spinner, Text, Grid, Flex } from "@chakra-ui/react";
+import { Box, Input, Center, Spinner, Text, Grid, Flex } from "@chakra-ui/react";
 import { fetchProducts } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
+import Header from "../components/Header";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,17 +27,17 @@ function Home() {
     navigate(`/product/${id}`);
   };
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.model.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+
+  const filteredProducts = products.filter((product) => {
+    const brand = product.brand?.toLowerCase() || "";
+    const model = product.model?.toLowerCase() || "";
+    return brand.includes(normalizedSearch) || model.includes(normalizedSearch);
+  });
 
   return (
     <Box p={6}>
-      <Box as="header" mb={6}>
-        <Heading size="xl">Product List</Heading>
-      </Box>
+      <Header />
       <Flex justify="flex-end" mb={6}>
         <Box w={{ base: "100%", md: "25%" }}>
           <Input
@@ -46,7 +47,6 @@ function Home() {
           />
         </Box>
       </Flex>
-
       {loading ? (
         <Center minH="200px">
           <Spinner size="lg" color="teal.500" />
