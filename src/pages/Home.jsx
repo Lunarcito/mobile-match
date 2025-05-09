@@ -30,9 +30,8 @@ function Home() {
   const normalizedSearch = searchQuery.trim().toLowerCase();
 
   const filteredProducts = products.filter((product) => {
-    const brand = product.brand?.toLowerCase() || "";
-    const model = product.model?.toLowerCase() || "";
-    return brand.includes(normalizedSearch) || model.includes(normalizedSearch);
+    const fullName = product.brand + " " + product.model;
+    return fullName.toLowerCase().includes(normalizedSearch);
   });
 
   return (
