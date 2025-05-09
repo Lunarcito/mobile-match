@@ -10,7 +10,8 @@ import {
   Image,
   List,
   ListItem,
-  Link
+  Link,
+  Select
 } from "@chakra-ui/react";
 import { fetchProductById } from "../services/api";
 
@@ -19,11 +20,19 @@ function ProductDetails() {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [colorCode, setColorCode] = useState("");
+  const [storageCode, setStorageCode] = useState("");
 
   useEffect(() => {
     fetchProductById(id)
       .then((data) => {
         setProduct(data);
+        if (data.options?.colors?.length === 1) {
+          setColorCode(data.options.colors[0].code);
+        }
+        if (data.options?.storages?.length === 1) {
+          setStorageCode(data.options.storages[0].code);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -108,6 +117,33 @@ function ProductDetails() {
               </ListItem>
             </List>
           </Box>
+          <Flex gap={4} mt={6} wrap="wrap">
+            <Select
+              placeholder="Select color"
+              onChange={(e) => setColorCode(e.target.value)}
+              value={colorCode}
+              w={{ base: "100%", md: "48%" }}
+            >
+              {product.options?.colors.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.name}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              placeholder="Select storage"
+              onChange={(e) => setStorageCode(e.target.value)}
+              value={storageCode}
+              w={{ base: "100%", md: "48%" }}
+            >
+              {product.options?.storages.map((s) => (
+                <option key={s.code} value={s.code}>
+                  {s.name}
+                </option>
+              ))}
+            </Select>
+          </Flex>
         </Box>
       </Flex>
     </Box>
