@@ -13,7 +13,7 @@ import {
   Link,
   Select
 } from "@chakra-ui/react";
-import { fetchProductById } from "../services/api";
+import { fetchProductById, addToCart } from "../services/api";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -40,6 +40,21 @@ function ProductDetails() {
         setLoading(false);
       });
   }, [id]);
+
+  const handleAddToCart = async () => {
+    if (!colorCode || !storageCode) {
+      alert("Please select a color and storage option.");
+      return;
+    }
+
+    try {
+      const response = await addToCart({ id, colorCode, storageCode });
+      alert(`Product added to cart. Total in cart: ${response.count}`);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      alert("Error adding product to cart.");
+    }
+  };
 
   if (loading)
     return (
@@ -144,6 +159,10 @@ function ProductDetails() {
               ))}
             </Select>
           </Flex>
+
+          <Button mt={6} colorScheme="teal" size="lg" onClick={handleAddToCart}>
+            🛒 Add to cart
+          </Button>
         </Box>
       </Flex>
     </Box>
