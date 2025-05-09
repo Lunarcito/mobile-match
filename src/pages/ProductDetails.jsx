@@ -144,6 +144,7 @@ function ProductDetails() {
           </Box>
           <Flex gap={4} mt={6} wrap="wrap">
             <Select
+              aria-label="Select color"
               placeholder="Select color"
               onChange={(e) => setColorCode(e.target.value)}
               value={colorCode}
@@ -157,6 +158,7 @@ function ProductDetails() {
             </Select>
 
             <Select
+              aria-label="Select storage"
               placeholder="Select storage"
               onChange={(e) => setStorageCode(e.target.value)}
               value={storageCode}
