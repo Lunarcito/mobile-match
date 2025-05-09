@@ -8,7 +8,6 @@ import { system } from "./theme/theme.js";
 function App() {
   return (
     <ChakraProvider theme={system}>
-      <h1>Mobile Tech</h1>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetails />} />

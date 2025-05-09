@@ -17,13 +17,7 @@ const ProductCard = ({ product, onClick }) => {
     >
       <Flex direction="column" justify="space-between" height="100%">
         <VStack spacing={4} align="center">
-          <Image
-            src={product.imgUrl}
-            alt={product.model}
-            boxSize="150px"
-            objectFit="contain"
-            fallbackSrc="https://via.placeholder.com/150"
-          />
+          <Image src={product.imgUrl} alt={product.model} boxSize="150px" objectFit="contain" />
           <Text fontWeight="bold" textAlign="center">
             {product.brand} {product.model}
           </Text>
