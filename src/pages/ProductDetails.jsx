@@ -1,3 +1,4 @@
+import Header from "../components/Header";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -14,6 +15,7 @@ import {
   Select
 } from "@chakra-ui/react";
 import { fetchProductById, addToCart } from "../services/api";
+import { useCart } from "../context/CartContext";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -22,6 +24,7 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [colorCode, setColorCode] = useState("");
   const [storageCode, setStorageCode] = useState("");
+  const { updateCartCount } = useCart();
 
   useEffect(() => {
     fetchProductById(id)
@@ -49,7 +52,13 @@ function ProductDetails() {
 
     try {
       const response = await addToCart({ id, colorCode, storageCode });
-      alert(`Product added to cart. Total in cart: ${response.count}`);
+      if (response && response.count !== undefined) {
+        updateCartCount(response.count);
+        alert(`Product added to cart. Total in cart: ${response.count}`);
+      } else {
+        console.error("API response doesn't contain a valid count.");
+        alert("Error adding product to cart.");
+      }
     } catch (error) {
       console.error("Error adding product to cart:", error);
       alert("Error adding product to cart.");
@@ -77,6 +86,7 @@ function ProductDetails() {
 
   return (
     <Box p={6}>
+      <Header />
       <Link onClick={() => navigate("/")} color="teal.500" fontWeight="bold">
         ← Back to product list
       </Link>
